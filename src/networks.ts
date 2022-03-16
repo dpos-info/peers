@@ -1,20 +1,20 @@
 const NETWORKS = {
-	"ark.devnet": {
-		api: "https://dapi.ark.io/api/peers",
-		defaultPort: 4003,
+	ark: {
+		devnet: "https://dapi.ark.io/api/peers",
+		mainnet: "https://api.ark.io/api/peers",
 	},
-	"ark.mainnet": {
-		api: "https://api.ark.io/api/peers",
-		defaultPort: 4003,
-	},
-	"sxp.mainnet": {
-		api: "https://sxp.mainnet.sh/api/peers",
-		defaultPort: 6003,
-	},
-	"sxp.testnet": {
-		api: "https://sxp.testnet.sh/api/peers",
-		defaultPort: 6003,
+	sxp: {
+		mainnet: "https://sxp.mainnet.sh/api/peers",
+		testnet: "https://sxp.testnet.sh/api/peers",
 	},
 };
 
-export const getConfig = (network: keyof typeof NETWORKS) => NETWORKS[network];
+export const getConfig = (value: string): string | undefined => {
+	const [coin, network] = value.split(".");
+
+	if (!Object.keys(NETWORKS).includes(coin)) {
+		return undefined;
+	}
+
+	return NETWORKS[coin][network];
+};

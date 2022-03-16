@@ -31,14 +31,11 @@ export class PeerDiscovery {
 		if (isUrl(networkOrHost)) {
 			url = [networkOrHost, "peers"].join(networkOrHost.endsWith("/") ? "" : "/");
 		} else {
-			const config = getConfig(networkOrHost as any); // eslint-disable-line @typescript-eslint/no-unsafe-argument
+			url = getConfig(networkOrHost);
 
-			if (!config) {
+			if (!url) {
 				throw new Error(`No configuration found for '${networkOrHost}'`);
 			}
-
-			port = config.defaultPort;
-			url = config.api;
 		}
 
 		try {
@@ -126,7 +123,7 @@ export class PeerDiscovery {
 					...(opts.pluginOptions ?? {}),
 				};
 
-				const { port, ...properties }: IPluginOptions = peer.plugins[pluginName];
+				const { port: pluginPort, ...properties }: IPluginOptions = peer.plugins[pluginName];
 
 				let isMatch = true;
 
@@ -154,7 +151,7 @@ export class PeerDiscovery {
 					continue;
 				}
 
-				const peerData: IPeer = this.#transformPeer({ ...peer, port }, opts);
+				const peerData: IPeer = this.#transformPeer({ ...peer, port: pluginPort }, opts);
 
 				peers.push(peerData);
 			}
@@ -181,7 +178,7 @@ export class PeerDiscovery {
 		return orderBy(peers, [this.#orderBy[0]], [this.#orderBy[1] as any]);
 	}
 
-	#transformPeer(peer: IPeer, opts: { additional?: string[] } = {}): IPeer {
+	#transformPeer(peer: IPeer, opts: { additional?: string[] }): IPeer {
 		const peerData: IPeer = {
 			ip: peer.ip,
 			port: peer.port,

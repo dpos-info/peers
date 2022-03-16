@@ -23,6 +23,16 @@ describe("PeerDiscovery", () => {
 				expect(peerDiscovery.getPeers()).toEqual(dummyPeersWebhooksApi);
 			});
 
+			it("should fetch peers if host ends with slash", async () => {
+				nock("http://127.0.0.1").get("/api/peers").reply(200, {
+					data: dummyPeersWebhooksApi,
+				});
+
+				const peerDiscovery: PeerDiscovery = await PeerDiscovery.new("http://127.0.0.1/api/");
+
+				expect(peerDiscovery.getPeers()).toEqual(dummyPeersWebhooksApi);
+			});
+
 			it("should fail if the seed list is empty", async () => {
 				nock("http://127.0.0.1").get("/api/peers").reply(200, {
 					data: [],
