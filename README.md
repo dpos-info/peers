@@ -27,10 +27,10 @@ peerDiscovery = await PeerDiscovery.new("http://dapi.ark.io/api");
 
 Available networks:
 
-- `ark.mainnet`
-- `ark.devnet`
-- `sxp.mainnet`
-- `sxp.testnet`
+-   `ark.mainnet`
+-   `ark.devnet`
+-   `sxp.mainnet`
+-   `sxp.testnet`
 
 ### Configure Version or Latency
 
