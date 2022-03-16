@@ -1,0 +1,102 @@
+{
+	"name": "@dpos-info/peers",
+	"version": "0.0.1",
+	"description": "A simple peer discovery client for the ARK Core based blockchains.",
+	"homepage": "https://github.com/dpos-info/peers",
+	"bugs": {
+		"url": "https://github.com/dpos-info/peers/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:dpos-info/peers.git"
+	},
+	"license": "MIT",
+	"author": "Edgar Goetzendorff <contact@dpos.info>",
+	"files": [
+		"/dist"
+	],
+	"main": "dist/index",
+	"types": "dist/index",
+	"scripts": {
+		"build": "yarn clean && tsc",
+		"build:watch": "yarn build -w",
+		"clean": "rimraf .coverage dist tmp",
+		"format": "yarn lint && yarn prettier",
+		"lint": "eslint 'src/**/*.{js,ts}' --quiet --fix",
+		"prepublishOnly": "yarn build",
+		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
+		"test": "jest",
+		"test:watch": "jest --watchAll"
+	},
+	"jest": {
+		"bail": true,
+		"collectCoverage": true,
+		"collectCoverageFrom": [
+			"src/**/*.ts",
+			"!src/index.ts",
+			"!src/cli/**/*.ts",
+			"!**/node_modules/**"
+		],
+		"coverageDirectory": "<rootDir>/.coverage",
+		"coverageReporters": [
+			"json",
+			"lcov",
+			"text",
+			"clover",
+			"html"
+		],
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js",
+			"jsx",
+			"json",
+			"node"
+		],
+		"setupFilesAfterEnv": [
+			"jest-extended"
+		],
+		"testEnvironment": "node",
+		"testMatch": [
+			"**/*.test.ts"
+		],
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"verbose": false
+	},
+	"dependencies": {
+		"is-url-superb": "5.0.0",
+		"ky": "0.25.1",
+		"ky-universal": "0.8.2",
+		"lodash.orderby": "^4.6.0",
+		"nock": "^13.2.4",
+		"semver": "^7.3.5"
+	},
+	"devDependencies": {
+		"@sindresorhus/tsconfig": "^2.0.0",
+		"@types/eslint-plugin-prettier": "^3.1.0",
+		"@types/jest": "^27.4.1",
+		"@types/lodash.orderby": "^4.6.6",
+		"@types/prettier": "^2.4.4",
+		"@types/rimraf": "^3.0.2",
+		"@types/semver": "^7.3.9",
+		"@typescript-eslint/eslint-plugin": "^5.15.0",
+		"@typescript-eslint/parser": "^5.15.0",
+		"codecov": "^3.8.3",
+		"eslint": "^8.11.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.25.4",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-promise": "^6.0.0",
+		"eslint-plugin-simple-import-sort": "^7.0.0",
+		"eslint-plugin-sort-keys-fix": "^1.1.2",
+		"eslint-plugin-unused-imports": "^2.0.0",
+		"jest": "^27.5.1",
+		"jest-extended": "^2.0.0",
+		"prettier": "^2.5.1",
+		"rimraf": "^3.0.0",
+		"ts-jest": "^27.1.3",
+		"typescript": "^4.6.2"
+	}
+}
