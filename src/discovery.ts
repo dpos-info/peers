@@ -102,13 +102,20 @@ export class PeerDiscovery {
 
 	public findPeersWithPlugin(
 		name: string,
-		opts: { pluginOptions?: IPluginOptions; additional?: string[] } = {},
+		opts: { exactMatch?: boolean; additional?: string[]; pluginOptions?: IPluginOptions } = {},
 	): IPeer[] {
 		const peers: IPeer[] = [];
 
 		for (const peer of this.#peers) {
 			const pluginName: string | undefined = Object.keys(peer.ports).find((key: string) => {
-				const regex = new RegExp(`${name}$`, "i");
+				let regex: RegExp;
+
+				if (opts.exactMatch) {
+					regex = new RegExp(`^${name}$`);
+				} else {
+					regex = new RegExp(`${name}$`, "i");
+				}
+
 				return regex.test(key);
 			});
 
