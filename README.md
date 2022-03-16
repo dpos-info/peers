@@ -45,7 +45,7 @@ peers = await peerDiscovery.findPeers();
 
 // with additional options
 
-peers = await peerDiscovery.findPeersWithPlugin({
+peers = await peerDiscovery.findPeers({
 	additional: ["ports"],
 });
 ```
