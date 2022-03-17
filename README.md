@@ -41,11 +41,11 @@ peers = peerDiscovery.withVersion(">=3.0.0").withLatency(300);
 ### Find Peers
 
 ```ts
-peers = await peerDiscovery.findPeers();
+peers = peerDiscovery.findPeers();
 
 // with additional options
 
-peers = await peerDiscovery.findPeers({
+peers = peerDiscovery.findPeers({
 	additional: ["ports"],
 });
 ```
@@ -53,11 +53,11 @@ peers = await peerDiscovery.findPeers({
 ### Find Peers with Plugin
 
 ```ts
-peers = await peerDiscovery.findPeersWithPlugin("core-api");
+peers = peerDiscovery.findPeersWithPlugin("core-api");
 
 // with plugin options
 
-peers = await peerDiscovery.findPeersWithPlugin("core-api", {
+peers = peerDiscovery.findPeersWithPlugin("core-api", {
 	pluginOptions: { estimateTotalCount: false },
 });
 ```
