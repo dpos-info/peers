@@ -1,6 +1,6 @@
 {
 	"name": "@dpos-info/peers",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "A simple peer discovery client for the ARK Core based blockchains.",
 	"homepage": "https://github.com/dpos-info/peers",
 	"bugs": {
