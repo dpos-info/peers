@@ -130,7 +130,9 @@ describe("PeerDiscovery", () => {
 
 		it("should find peers with exact match", () => {
 			const validPeers = dummyPeersWebhooksApi.map((peer) => ({ ip: peer.ip, port: 4104 }));
-			expect(peerDiscovery.findPeersWithPlugin("@arkecosystem/core-webhooks", { exactMatch: true })).toEqual(validPeers);
+			expect(peerDiscovery.findPeersWithPlugin("@arkecosystem/core-webhooks", { exactMatch: true })).toEqual(
+				validPeers,
+			);
 		});
 
 		it("should find peers with a given port", () => {

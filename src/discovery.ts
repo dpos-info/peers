@@ -8,14 +8,14 @@ import { getConfig } from "./networks";
 import { validatePort, validateProperty } from "./utils";
 
 export class PeerDiscovery {
-	readonly #peers: IPeer[] = [];
-
+	readonly #host: string;
+	#peers: IPeer[];
 	#version: string | undefined;
 	#latency: number | undefined;
 	#orderBy: string[] = ["latency", "desc"];
 
-	private constructor(peers: IPeer[]) {
-		this.#peers = peers;
+	private constructor(host: string) {
+		this.#host = host;
 	}
 
 	public static async new(networkOrHost: string): Promise<PeerDiscovery> {
@@ -23,28 +23,37 @@ export class PeerDiscovery {
 			throw new Error("No network or host provided");
 		}
 
-		const peers: IPeer[] = [];
-
-		let port: number;
-		let url: string;
+		let host: string;
 
 		if (isUrl(networkOrHost)) {
-			url = [networkOrHost, "peers"].join(networkOrHost.endsWith("/") ? "" : "/");
+			host = [networkOrHost, "peers"].join(networkOrHost.endsWith("/") ? "" : "/");
 		} else {
-			url = getConfig(networkOrHost);
+			host = getConfig(networkOrHost);
 
-			if (!url) {
+			if (!host) {
 				throw new Error(`No configuration found for '${networkOrHost}'`);
 			}
 		}
 
+		const peerDiscovery = new PeerDiscovery(host);
+
+		await peerDiscovery.refresh();
+
+		return peerDiscovery;
+	}
+
+	public async refresh(): Promise<PeerDiscovery> {
+		const peers: IPeer[] = [];
+
 		try {
-			const body: any = await ky.get(url).json();
+			const body: any = await ky.get(this.#host).json();
 
 			for (const peer of body.data as IPeerResponse[]) {
 				const pluginName: string | undefined = Object.keys(peer.ports).find((key: string) =>
 					/core-api$/i.test(key),
 				);
+
+				let port: number;
 
 				if (pluginName) {
 					const apiPort = peer.ports[pluginName];
@@ -66,7 +75,9 @@ export class PeerDiscovery {
 			throw new Error("No peers found");
 		}
 
-		return new PeerDiscovery(peers);
+		this.#peers = peers;
+
+		return this;
 	}
 
 	public getPeers(): IPeer[] {

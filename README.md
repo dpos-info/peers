@@ -62,6 +62,14 @@ peers = await peerDiscovery.findPeersWithPlugin("core-api", {
 });
 ```
 
+### Refresh Peer List
+
+Call `refresh()` to fetch a new peer list from the configured host.
+
+```ts
+await peerDiscovery.refresh();
+```
+
 ## Testing
 
 ```bash
